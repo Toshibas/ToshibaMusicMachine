@@ -9,6 +9,18 @@ import (
 	"syscall"
 )
 
+func ready(s *discordgo.Session, event *discordgo.Ready) {
+
+	fmt.Println("ToshibaMusicMachine is now running.  Press CTRL-C to exit.")
+
+}
+
+func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+
+	
+
+}
+
 
 func main() {
 
@@ -18,13 +30,17 @@ func main() {
 		log.Fatal(err)
 	}
 
+	bot.AddHandler(ready)
+
+	bot.AddHandler(messageCreate)
+
 	err = bot.Open()
 
 	if err != nil {
-		fmt.Println("Error opening Discord session: ", err)
+		log.Fatal("Error opening Discord session: ", err)
 	}
 
-	fmt.Println("ToshibaMusicMachine.  Press CTRL-C to exit.")
+	
 
 	sc := make(chan os.Signal, 1)
 
