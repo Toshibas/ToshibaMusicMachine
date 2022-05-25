@@ -2,11 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/bwmarrin/discordgo"
 	"log"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 func ready(s *discordgo.Session, event *discordgo.Ready) {
@@ -15,12 +17,27 @@ func ready(s *discordgo.Session, event *discordgo.Ready) {
 
 }
 
-func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
+func messageCreate(s *discordgo.Session, e *discordgo.MessageCreate) {
+	if e.Message.Author.ID == s.State.User.ID {
+		return
+	}
 
-	
+	if strings.HasPrefix(e.Message.Content, "/") {
+
+		commandAndRest := strings.SplitN(e.Message.Content, " ", 2)
+		command := commandAndRest[0]
+		commandName := command[1:]
+
+		var content = "ok " + commandName + " ^-^"
+
+		s.ChannelMessageSend(e.Message.ChannelID, content)
+		if len(commandAndRest) > 1 {
+			s.ChannelMessageSend(e.Message.ChannelID, commandAndRest[1])
+		}
+
+	}
 
 }
-
 
 func main() {
 
@@ -39,8 +56,6 @@ func main() {
 	if err != nil {
 		log.Fatal("Error opening Discord session: ", err)
 	}
-
-	
 
 	sc := make(chan os.Signal, 1)
 
