@@ -10,7 +10,7 @@ import (
 )
 
 type AGuild struct {
-	Id      string
+	Id     string
 	Allowed bool
 }
 
@@ -65,12 +65,33 @@ func (connector DBConnector) guildExists(guildID string) bool {
 
 }
 
-func (connector DBConnector) addGuild(guildID string, allowed bool) { // TODO
+func (connector DBConnector) addGuild(guildID string, allowed bool) {
+
+	rows, err := connector.db.Query("INSERT INTO guilds VALUES (?, ?)", guildID, allowed)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	
+	defer rows.Close()
 
 }
 
-func (connector DBConnector) getGuildById(guildID string) AGuild { // TODO
+func (connector DBConnector) getGuildByID(guildID string) AGuild {
 
-	return AGuild{}
+	rows, err := connector.db.Query("SELECT * FROM guilds WHERE id = ?", guildID)
 
+	if err != nil {
+		log.Fatal(err)
+	}
+ 
+	defer rows.Close()
+
+	guild := AGuild{}
+
+	if rows.Next() {
+		rows.Scan(&guild.Id, &guild.Allowed)
+	}
+
+	return guild
 }
