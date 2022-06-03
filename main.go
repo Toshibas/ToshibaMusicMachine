@@ -16,8 +16,12 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Println(dbConnector.guildExists("qwertyuiop"))
-	fmt.Println(dbConnector.guildExists("qwertyuioq"))
+	// dbConnector.addGuild("111111", true)
+
+	fmt.Println(dbConnector.getGuildByID("111112"))
+
+	// fmt.Println(dbConnector.guildExists("111111"))
+	
 
 	dbConnector.closeConnection()
 
