@@ -1,22 +1,26 @@
 package main
 
 import (
-
-	"log"
 	"fmt"
+	"log"
 
 	"database/sql"
-    _ "github.com/go-sql-driver/mysql"
 
+	_ "github.com/go-sql-driver/mysql"
 )
 
+type AGuild struct {
+	Id      string
+	Allowed bool
+}
+
 type DBConnector struct {
-	address string
-	port string
-	user string
+	address  string
+	port     string
+	user     string
 	password string
 	database string
-	db *sql.DB 
+	db       *sql.DB
 }
 
 func createDBConnector(address, port, user, password, database string) (DBConnector, error) {
@@ -30,14 +34,14 @@ func createDBConnector(address, port, user, password, database string) (DBConnec
 	}
 
 	connector := DBConnector{
-		address: address,
-		port: port,
-		user: user,
+		address:  address,
+		port:     port,
+		user:     user,
 		password: password,
 		database: database,
-		db: db,
+		db:       db,
 	}
-	
+
 	return connector, nil
 }
 
@@ -57,6 +61,16 @@ func (connector DBConnector) guildExists(guildID string) bool {
 
 	defer rows.Close()
 
-	return rows.Next() 
+	return rows.Next()
+
+}
+
+func (connector DBConnector) addGuild(guildID string, allowed bool) { // TODO
+
+}
+
+func (connector DBConnector) getGuildById(guildID string) AGuild { // TODO
+
+	return AGuild{}
 
 }
