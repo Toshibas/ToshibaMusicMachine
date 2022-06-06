@@ -10,7 +10,7 @@ import (
 )
 
 type AGuild struct {
-	Id     string
+	Id      string
 	Allowed bool
 }
 
@@ -23,17 +23,17 @@ type DBConnector struct {
 	db       *sql.DB
 }
 
-func createDBConnector(address, port, user, password, database string) (DBConnector, error) {
+func NewDBConnector(address, port, user, password, database string) (*DBConnector, error) {
 
 	connectionRow := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, address, port, database)
 
 	db, err := sql.Open("mysql", connectionRow)
 
 	if err != nil {
-		return DBConnector{}, err
+		return &DBConnector{}, err
 	}
 
-	connector := DBConnector{
+	connector := &DBConnector{
 		address:  address,
 		port:     port,
 		user:     user,
@@ -45,13 +45,13 @@ func createDBConnector(address, port, user, password, database string) (DBConnec
 	return connector, nil
 }
 
-func (connector DBConnector) closeConnection() {
+func (connector *DBConnector) CloseConnection() {
 
 	connector.db.Close()
 
 }
 
-func (connector DBConnector) guildExists(guildID string) bool {
+func (connector *DBConnector) GuildExists(guildID string) bool {
 
 	rows, err := connector.db.Query("SELECT * FROM guilds WHERE id = ?", guildID)
 
@@ -65,26 +65,26 @@ func (connector DBConnector) guildExists(guildID string) bool {
 
 }
 
-func (connector DBConnector) addGuild(guildID string, allowed bool) {
+func (connector *DBConnector) AddGuild(guildID string, allowed bool) {
 
 	rows, err := connector.db.Query("INSERT INTO guilds VALUES (?, ?)", guildID, allowed)
 
 	if err != nil {
 		log.Fatal(err)
 	}
-	
+
 	defer rows.Close()
 
 }
 
-func (connector DBConnector) getGuildByID(guildID string) AGuild {
+func (connector *DBConnector) GetGuildByID(guildID string) AGuild {
 
 	rows, err := connector.db.Query("SELECT * FROM guilds WHERE id = ?", guildID)
 
 	if err != nil {
 		log.Fatal(err)
 	}
- 
+
 	defer rows.Close()
 
 	guild := AGuild{}

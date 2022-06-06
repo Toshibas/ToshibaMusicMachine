@@ -1,0 +1,9 @@
+{
+    "dbHost": "127.0.0.1",
+    "dbPort": "3306",
+    "dbUser": "user",
+    "dbPassword": "password",
+    "dbName": "someName",
+    "botToken": "token",
+    "defaultGuildStatus": true
+}
