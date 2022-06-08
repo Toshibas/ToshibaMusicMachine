@@ -1,19 +1,22 @@
 package main
 
 import (
-	"encoding/json"
+	
 	"fmt"
 	"os"
+
+	"github.com/go-yaml/yaml" 
+
 )
 
 type Config struct {
-	DbHost         string `json:"dbHost"`
-	DbPort         string `json:"dbPort"`
-	DbUser         string `json:"dbUser"`
-	DbPassword     string `json:"dbPassword"`
-	DbName         string `json:"dbName"`
-	BotToken       string `json:"botToken"`
-	DefGuildStatus bool   `json:"defaultGuildStatus"`
+	DbHost         string `yaml:"dbHost"`
+	DbPort         string `yaml:"dbPort"`
+	DbUser         string `yaml:"dbUser"`
+	DbPassword     string `yaml:"dbPassword"`
+	DbName         string `yaml:"dbName"`
+	BotToken       string `yaml:"botToken"`
+	DefGuildStatus bool   `yaml:"defaultGuildStatus"`
 }
 
 func LoadConfiguration(fileName string) *Config {
@@ -23,7 +26,7 @@ func LoadConfiguration(fileName string) *Config {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	jsonParser := json.NewDecoder(configFile)
-	jsonParser.Decode(&config)
+	yamlParser := yaml.NewDecoder(configFile)
+	yamlParser.Decode(&config)
 	return &config
 }

@@ -18,7 +18,7 @@ func ready(s *discordgo.Session, e *discordgo.Ready) {
 
 func main() {
 
-	config := LoadConfiguration("./config.json")
+	config := LoadConfiguration("./config.yml")
 
 	dbConnector, err := NewDBConnector(
 		config.DbHost,
@@ -39,6 +39,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 
 	bot.AddHandler(ready)
 	bot.AddHandler(messageProcessor.ProcessMessage)

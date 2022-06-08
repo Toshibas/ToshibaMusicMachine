@@ -1,0 +1,9 @@
+---
+
+dbHost: Host,
+dbPort: Port,
+dbUser: user,
+dbPassword: password,
+dbName: DBname,
+botToken: TOKEN,
+defaultGuildStatus: true
