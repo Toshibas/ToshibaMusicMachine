@@ -18,7 +18,7 @@ func ready(s *discordgo.Session, e *discordgo.Ready) {
 
 func main() {
 
-	config := LoadConfiguration("./config.yml")
+	config := LoadConfiguration("./config.yaml")
 
 	dbConnector, err := NewDBConnector(
 		config.DbHost,
@@ -32,7 +32,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	messageProcessor := NewMessageProcessor(config)
+	messageProcessor := NewMessageProcessor(config, dbConnector)
 
 	bot, err := discordgo.New("Bot " + config.BotToken)
 
