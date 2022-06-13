@@ -40,7 +40,6 @@ func main() {
 		log.Fatal(err)
 	}
 
-
 	bot.AddHandler(ready)
 	bot.AddHandler(messageProcessor.ProcessMessage)
 
